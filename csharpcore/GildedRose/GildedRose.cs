@@ -9,6 +9,9 @@ namespace GildedRoseKata
         private static readonly string BackstagePassesToATafkal80EtcConcert = "Backstage passes to a TAFKAL80ETC concert";
         private static readonly string SulfurasHandOfRagnaros = "Sulfuras, Hand of Ragnaros";
 
+        private static readonly List<string> IncreaseQuality = new List<string>()
+            { AgedBrie, BackstagePassesToATafkal80EtcConcert };
+        
         public GildedRose(IList<Item> Items)
         {
             this.Items = Items;
@@ -18,14 +21,14 @@ namespace GildedRoseKata
         {
             foreach (var t in Items)
             {
-                if (t.Name != AgedBrie && t.Name != BackstagePassesToATafkal80EtcConcert)
+                if (t.Name == SulfurasHandOfRagnaros)
+                    continue;
+                    
+                if (!IncreaseQuality.Contains(t.Name))
                 {
                     if (t.Quality > 0)
                     {
-                        if (t.Name != SulfurasHandOfRagnaros)
-                        {
-                            t.Quality = t.Quality - 1;
-                        }
+                        t.Quality = t.Quality - 1;
                     }
                 }
                 else
@@ -55,10 +58,7 @@ namespace GildedRoseKata
                     }
                 }
 
-                if (t.Name != SulfurasHandOfRagnaros)
-                {
-                    t.SellIn = t.SellIn - 1;
-                }
+                t.SellIn = t.SellIn - 1;
 
                 if (t.SellIn < 0)
                 {
@@ -68,10 +68,7 @@ namespace GildedRoseKata
                         {
                             if (t.Quality > 0)
                             {
-                                if (t.Name != SulfurasHandOfRagnaros)
-                                {
-                                    t.Quality = t.Quality - 1;
-                                }
+                                t.Quality = t.Quality - 1;
                             }
                         }
                         else
