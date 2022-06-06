@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq.Expressions;
 
 namespace GildedRoseKata
 {
@@ -59,14 +58,15 @@ namespace GildedRoseKata
         private static void IncreaseBackstagePasses(Item t)
         {
             if (t.Name != BackstagePassesToATafkal80EtcConcert) return;
-            if (t.SellIn < 11)
+            switch (t.SellIn)
             {
-                IncrementQuality(t);
-            }
-
-            if (t.SellIn < 6)
-            {
-                IncrementQuality(t);
+                case < 6:
+                    IncrementQuality(t);
+                    IncrementQuality(t);
+                    break;
+                case  < 11:
+                    IncrementQuality(t);
+                    break;
             }
         }
 
