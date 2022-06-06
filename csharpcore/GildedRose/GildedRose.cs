@@ -11,7 +11,9 @@ namespace GildedRoseKata
 
         private static readonly List<string> IncreaseQualityItems = new List<string>()
             { AgedBrie, BackstagePassesToATafkal80EtcConcert };
-        
+
+        private static int _maxQuality = 50;
+
         public GildedRose(IList<Item> Items)
         {
             this.Items = Items;
@@ -33,7 +35,7 @@ namespace GildedRoseKata
                     DecrementQuality(t);
                 }
 
-                t.SellIn = t.SellIn - 1;
+                t.SellIn -= 1;
 
                 if (t.SellIn < 0)
                 {
@@ -49,34 +51,27 @@ namespace GildedRoseKata
 
         private static void IncreaseQuality(Item t)
         {
-            if (t.Quality < 50)
+            IncrementQuality(t);
+            IncreaseBackstagePasses(t);
+        }
+
+        private static void IncreaseBackstagePasses(Item t)
+        {
+            if (t.Name != BackstagePassesToATafkal80EtcConcert) return;
+            if (t.SellIn < 11)
             {
-                IncreamentQuality(t);
+                IncrementQuality(t);
+            }
 
-                if (t.Name == BackstagePassesToATafkal80EtcConcert)
-                {
-                    if (t.SellIn < 11)
-                    {
-                        if (t.Quality < 50)
-                        {
-                            IncreamentQuality(t);
-                        }
-                    }
-
-                    if (t.SellIn < 6)
-                    {
-                        if (t.Quality < 50)
-                        {
-                            IncreamentQuality(t);
-                        }
-                    }
-                }
+            if (t.SellIn < 6)
+            {
+                IncrementQuality(t);
             }
         }
 
-        private static int IncreamentQuality(Item t)
+        private static void IncrementQuality(Item t)
         {
-            return t.Quality == 50 ? 50 : t.Quality = t.Quality + 1;
+            t.Quality = t.Quality < _maxQuality ? t.Quality + 1 : _maxQuality;
         }
 
         private static void SellInLessZero(Item t)
@@ -89,21 +84,23 @@ namespace GildedRoseKata
                 }
                 else
                 {
-                    t.Quality = t.Quality - t.Quality;
+                    SetQualityToZero(t);
                 }
             }
             else
             {
-                if (t.Quality < 50)
-                {
-                    t.Quality = t.Quality + 1;
-                }
+                IncrementQuality(t);
             }
         }
 
         private static void DecrementQuality(Item t)
         {
             t.Quality = t.Quality > 0 ? t.Quality - 1 : 0;
+        }
+        
+        private static void SetQualityToZero(Item t)
+        {
+            t.Quality = 0;
         }
     }
 }
