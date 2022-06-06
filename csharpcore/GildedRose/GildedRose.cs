@@ -30,10 +30,7 @@ namespace GildedRoseKata
                 }
                 else
                 {
-                    if (t.Quality > 0)
-                    {
-                        t.Quality = t.Quality - 1;
-                    } 
+                    DecrementQuality(t);
                 }
 
                 t.SellIn = t.SellIn - 1;
@@ -88,10 +85,7 @@ namespace GildedRoseKata
             {
                 if (t.Name != BackstagePassesToATafkal80EtcConcert)
                 {
-                    if (t.Quality > 0)
-                    {
-                        t.Quality = t.Quality - 1;
-                    }
+                    DecrementQuality(t);
                 }
                 else
                 {
@@ -105,6 +99,11 @@ namespace GildedRoseKata
                     t.Quality = t.Quality + 1;
                 }
             }
+        }
+
+        private static void DecrementQuality(Item t)
+        {
+            t.Quality = t.Quality > 0 ? t.Quality - 1 : 0;
         }
     }
 }
