@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
+using System.Linq.Expressions;
 
 namespace GildedRoseKata
 {
     public class GildedRose
     {
         IList<Item> Items;
-        private static readonly string AgedBrie = "Aged Brie";
-        private static readonly string BackstagePassesToATafkal80EtcConcert = "Backstage passes to a TAFKAL80ETC concert";
-        private static readonly string SulfurasHandOfRagnaros = "Sulfuras, Hand of Ragnaros";
+        private const string AgedBrie = "Aged Brie";
+        private const string BackstagePassesToATafkal80EtcConcert = "Backstage passes to a TAFKAL80ETC concert";
+        private const string SulfurasHandOfRagnaros = "Sulfuras, Hand of Ragnaros";
 
         private static readonly List<string> IncreaseQualityItems = new List<string>()
             { AgedBrie, BackstagePassesToATafkal80EtcConcert };
@@ -76,20 +77,17 @@ namespace GildedRoseKata
 
         private static void SellInLessZero(Item t)
         {
-            if (t.Name != AgedBrie)
+            switch (t.Name)
             {
-                if (t.Name != BackstagePassesToATafkal80EtcConcert)
-                {
-                    DecrementQuality(t);
-                }
-                else
-                {
+                case AgedBrie:
+                    IncrementQuality(t);
+                    break;
+                case BackstagePassesToATafkal80EtcConcert:
                     SetQualityToZero(t);
-                }
-            }
-            else
-            {
-                IncrementQuality(t);
+                    break;
+                default:
+                    DecrementQuality(t);
+                    break;
             }
         }
 
